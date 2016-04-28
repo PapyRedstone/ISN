@@ -10,7 +10,7 @@ import socket
 import json
 
 Socket = socket.socket()
-Socket.bind((socket.gethostbyname(socket.gethostname()) ,15555))
+Socket.bind(("0.0.0.0" ,1000))
 Socket.listen(5)
 client, address = Socket.accept()
 print ("{} connected".format(address))
@@ -41,22 +41,15 @@ while Continue:
         mapPrint.append([x for x in m])
 
     for ent in g.entity:
-        if ent.name == "Mob":
-            mapPrint[ent.pos["y"]][ent.pos["x"]] = "M"
-        elif ent.name == "HealthObject":
-            mapPrint[ent.pos["y"]][ent.pos["x"]] = "H"
-        elif ent.name == "Player":
-            mapPrint[ent.pos["y"]][ent.pos["x"]] = "J"
-        elif ent.name == "PowerObject":
-            mapPrint[ent.pos["y"]][ent.pos["x"]] = "P"
+        mapPrint[ent.pos["y"]][ent.pos["x"]] = ent.name[0]
 
     for m in mapPrint:
         for M in m:
             print(str(M), end="  ")
         print()
         
-    sendTab = json.dumps(g.map+g.entity)
-    client.send(sendTab.encode())
+    client.send(json.dumps(g.map).encode())
+    client.send(str(g.entity[0].pv).encode())
     response = client.recv(1000).decode()
     if response != "ACCOMPLISH":
         print ("DATA RECEIVED BY USER ARE UNCOMPLET")

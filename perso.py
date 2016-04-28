@@ -17,13 +17,14 @@ class Perso(Entity):
         self.name = "Player"
         self.pv = 100
     
-    def play(self, entity):
-#==============================================================================
-#       a implementer : reception des donnes
-#==============================================================================
+    def play(self, entity, client):
+        client.send("WAITING FOR DATA".encode())
+        data = client.recv(1000).decode()
         print("PV:",self.pv)
-        data = input("Action joueur -->") #donée rentrée par l'utilisateur 
-                                            #temporaire
+#==============================================================================
+#         data = input("Action joueur -->") #donée rentrée par l'utilisateur 
+#                                             #temporaire
+#==============================================================================
         if not data:    #si data vaut None alors on retourne une erreur
             print("Erreur : pas de donnes utilisateur")
             return True

@@ -19,6 +19,7 @@ class Game:
         self.map = Map      #contient la map du donjon : 
                             #1 est franchissable 
                             #0 est infranchissable
+        self.client = client
         self.entity = []
         self.entity.append(Perso(Map,pos = {"x":len(Map[0])-1,"y":len(Map)-1}))
         for i in range(nbMonster):
@@ -33,7 +34,7 @@ class Game:
         answer = True
         for ent in self.entity:
             if ent.name == "Player":
-                answer = ent.play(self.entity)
+                answer = ent.play(self.entity,self.client)
                 if ent.pv <= 0:
                     answer = False
             else:
