@@ -5,11 +5,20 @@ Created on Fri Mar 25 13:59:49 2016
 @author: alexandre.febvre
 """
 
+from gameMotor.entity import Entity
 from gameMotor.mob import Mob
 from gameMotor.perso import Perso
 from gameMotor.healthobject import HealthObject
 from gameMotor.powerobject import PowerObject
 from random import randint
+import json
+
+def serialiseur(obj):
+    if isinstance(obj, Entity):
+        return {"__class__": "Entity",
+                "name": obj.name,
+                "pos": obj.pos}
+    raise TypeError(repr(obj) + " n'est pas sérialisable !")
 
 class Game:
     """
@@ -29,6 +38,7 @@ class Game:
             self.entity.append(Mob(Map,randPos))
         self.entity.append(HealthObject({"x":0,"y":0}, Map))
         self.entity.append(PowerObject({"x":1,"y":0}, Map))
+        self.client.send(json.dumps(self.map).encode())
     
     def play(self):
         answer = True
@@ -41,5 +51,6 @@ class Game:
                 ent.play(self.entity)
             if ent.pv <= 0:
                 self.entity.remove(ent)
+        self.client.send(json.dumps([serialiseur(ent) for ent in self.entity]).encode())
         
         return answer

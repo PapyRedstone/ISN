@@ -9,7 +9,7 @@ class Entity:
     """
     Classe de base définissant les objets du jeu
     """
-    def __init__(self, pos, Map, power = 0):
+    def __init__(self, pos, Map , power = 0):
         self.pos = pos
         self.map = Map
         self.name = "Entity"
@@ -54,3 +54,8 @@ class Entity:
     def attack(self, target):
         #on fait perdre a target autant de pv que la valeur de dommage
         target.pv = target.pv - self.power
+        
+class EntForDeserializeur(Entity):
+    def __init__(self,name,pos):
+        Entity.__init__(self,pos,[])
+        self.name = name

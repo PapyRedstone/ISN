@@ -7,6 +7,7 @@ Created on Fri Mar 25 13:55:15 2016
 
 from gameMotor.entity import Entity
 from random import choice
+import time
 
 class Perso(Entity):
     """
@@ -20,6 +21,11 @@ class Perso(Entity):
     def play(self, entity, client):
         client.send("WAITING FOR DATA".encode())
         data = client.recv(1000).decode()
+        client.send("PV".encode())
+        time.sleep(.1)
+        client.send(str(self.pv).encode())
+        client.send("Position".encode())
+        client.send(str(self.pos).encode())
         print("PV:",self.pv)
 #==============================================================================
 #         data = input("Action joueur -->") #donée rentrée par l'utilisateur 

@@ -7,10 +7,9 @@ Created on Fri Mar  4 17:19:56 2016
 
 from gameMotor.game import Game
 import socket
-import json
 
 Socket = socket.socket()
-Socket.bind(("0.0.0.0" ,1000))
+Socket.bind(("0.0.0.0" ,1001))
 Socket.listen(5)
 client, address = Socket.accept()
 print ("{} connected".format(address))
@@ -48,11 +47,6 @@ while Continue:
             print(str(M), end="  ")
         print()
         
-    client.send(json.dumps(g.map).encode())
-    client.send(str(g.entity[0].pv).encode())
-    response = client.recv(1000).decode()
-    if response != "ACCOMPLISH":
-        print ("DATA RECEIVED BY USER ARE UNCOMPLET")
         
 print ("Close")
 client.close()
