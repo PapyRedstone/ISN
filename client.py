@@ -10,6 +10,7 @@ Created on Wed Feb 24 09:12:04 2016
 import socket               # Import socket module
 import json
 from gameMotor.entity import EntForDeserializeur
+from random import choice
 
 def deserialiseur(obj_dict):
     if "__class__" in obj_dict:
@@ -22,7 +23,7 @@ host = socket.gethostbyname(socket.gethostname())    # Get serveur machine name
 port = 1001
 s.connect((host, port))
 
-data = s.recv(1000).decode()
+data = s.recv(10000).decode()
 Map = json.loads(data)
 MaptoPrint = [ m[::] for m in Map]
 
@@ -35,12 +36,15 @@ while len(data) != 0:
         try:
             if isinstance(json.loads(data),int):
                 raise ValueError
-            d = [deserialiseur(d) for d in json.loads(data)]
-            for ent in d:
-                MaptoPrint[ent.pos["x"]][ent.pos["y"]] = ent.name[:1].upper()
+            entity = [deserialiseur(d) for d in json.loads(data)]
+            for ent in entity:
+                MaptoPrint[ent.pos["y"]][ent.pos["x"]] = ent.name[:1].upper()
             for m in MaptoPrint:
                 for x in m:
-                    print(x,end="  ")
+                    if x == 1:
+                        print("-",end="  ")
+                    else:
+                        print(x,end="  ")
                 print()
             MaptoPrint = [ m[::] for m in Map]
         except ValueError:

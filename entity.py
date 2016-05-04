@@ -26,6 +26,7 @@ class Entity:
             elif self.map[tmpPos][self.pos["x"]] == 0:
                 tmpPos = self.pos["y"]     
             self.pos["y"] = tmpPos
+            return True
         
         elif data == "DOWN":
             tmpPos = self.pos["y"]+1
@@ -34,6 +35,7 @@ class Entity:
             elif self.map[tmpPos][self.pos["x"]] == 0:
                 tmpPos = self.pos["y"]
             self.pos["y"] = tmpPos
+            return True
 
         elif data == "RIGHT": 
             tmpPos = self.pos["x"]+1
@@ -42,6 +44,7 @@ class Entity:
             elif self.map[self.pos["y"]][tmpPos] == 0:
                 tmpPos = self.pos["x"]
             self.pos["x"] = tmpPos
+            return True
         
         elif data == "LEFT": 
             tmpPos = self.pos["x"]-1
@@ -50,6 +53,8 @@ class Entity:
             elif self.map[self.pos["y"]][tmpPos] == 0:
                 tmpPos = self.pos["x"]
             self.pos["x"] = tmpPos
+            return True
+        return False
         
     def attack(self, target):
         #on fait perdre a target autant de pv que la valeur de dommage

@@ -12,6 +12,7 @@ from gameMotor.healthobject import HealthObject
 from gameMotor.powerobject import PowerObject
 from random import randint
 import json
+import time
 
 def serialiseur(obj):
     if isinstance(obj, Entity):
@@ -39,6 +40,7 @@ class Game:
         self.entity.append(HealthObject({"x":0,"y":0}, Map))
         self.entity.append(PowerObject({"x":1,"y":0}, Map))
         self.client.send(json.dumps(self.map).encode())
+        time.sleep(.5)
     
     def play(self):
         answer = True
@@ -52,5 +54,6 @@ class Game:
             if ent.pv <= 0:
                 self.entity.remove(ent)
         self.client.send(json.dumps([serialiseur(ent) for ent in self.entity]).encode())
+        time.sleep(.1)
         
         return answer

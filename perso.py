@@ -24,19 +24,15 @@ class Perso(Entity):
         client.send("PV".encode())
         time.sleep(.1)
         client.send(str(self.pv).encode())
-        client.send("Position".encode())
-        client.send(str(self.pos).encode())
         print("PV:",self.pv)
-#==============================================================================
-#         data = input("Action joueur -->") #donée rentrée par l'utilisateur 
-#                                             #temporaire
-#==============================================================================
+        
         if not data:    #si data vaut None alors on retourne une erreur
             print("Erreur : pas de donnes utilisateur")
             return True
         else:           #sinon on fait l'action demande
-            self.mouv(data)
-            if data == "ATTACK":
+            if self.mouv(data):
+                return True
+            elif data == "ATTACK":
                 mobsNear = []
                 for ent in entity:
                     if (ent.pos["x"]-self.pos["x"] > -2 and

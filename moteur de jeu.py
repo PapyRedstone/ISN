@@ -10,6 +10,7 @@ import socket
 
 Socket = socket.socket()
 Socket.bind(("0.0.0.0" ,1001))
+print("Waiting for connections")
 Socket.listen(5)
 client, address = Socket.accept()
 print ("{} connected".format(address))
