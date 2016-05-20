@@ -7,7 +7,6 @@ Created on Fri Mar 25 13:55:15 2016
 
 from gameMotor.entity import Entity
 from random import choice
-import time
 
 class Perso(Entity):
     """
@@ -21,9 +20,6 @@ class Perso(Entity):
     def play(self, entity, client):
         client.send("WAITING FOR DATA".encode())
         data = client.recv(1000).decode()
-        client.send("PV".encode())
-        time.sleep(.1)
-        client.send(str(self.pv).encode())
         print("PV:",self.pv)
         
         if not data:    #si data vaut None alors on retourne une erreur
@@ -41,10 +37,9 @@ class Perso(Entity):
                         ent.pos["y"]-self.pos["y"] < 2 and
                         ent.name == "Mob"):
                         mobsNear.append(ent)
-                try:
+                if len(mobsNear) != 0:
                     self.attack(choice(mobsNear))
-                except IndexError:
-                    pass
+                    
             elif data.lower() == "q":
                 return False
             else:

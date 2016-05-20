@@ -5,12 +5,9 @@ Created on Wed Feb 24 09:12:04 2016
 @author: alexandre.febvre
 """
 
-#!/usr/bin/python           # This is client.py file
-
-import socket               # Import socket module
+import socket
 import json
 from gameMotor.entity import EntForDeserializeur
-from random import choice
 
 def deserialiseur(obj_dict):
     if "__class__" in obj_dict:
@@ -30,7 +27,7 @@ MaptoPrint = [ m[::] for m in Map]
 while len(data) != 0:
     data = s.recv(1000).decode()
     if data == "WAITING FOR DATA":
-        data = input("Entrez une action --->")
+        data = input("Entrez une action --->").upper()
         s.send(data.encode())
     else:
         try:
@@ -46,7 +43,7 @@ while len(data) != 0:
                     else:
                         print(x,end="  ")
                 print()
-            MaptoPrint = [ m[::] for m in Map]
+            MaptoPrint = [ m[:] for m in Map]
         except ValueError:
             print (data)
 
